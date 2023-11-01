@@ -22,20 +22,20 @@ function imprimirPie($titulo)
     </html>";
     } elseif ($titulo == 'Listar Lugar') {
         echo "<br>
-        <a href='../index.html'>Menú</a><br>
+        <a href='../../index.html'>Menú</a><br>
         <a href='agregar_lugar.php'>Agregar Lugar</a><br>
     </body>
     </html>";
     } elseif ($titulo == 'Modificar Lugar') {
         echo "<br>
-        <a href='../index.html'>Menú</a><br>
+        <a href='../../index.html'>Menú</a><br>
         <a href='agregar_lugar.php'>Agregar Lugar</a><br>
         <a href='listar_lugar.php'>Listar Lugar - Modificado y Borrado incluido</a><br>  
     </body>
     </html>";
     } elseif ($titulo == 'Eliminar Lugar') {
         echo "<br>
-        <a href='../index.html'>Menú</a><br>
+        <a href='../../index.html'>Menú</a><br>
         <a href='agregar_lugar.php'>Agregar Lugar</a><br>
         <a href='listar_lugar.php'>Listar Lugar - Modificado y Borrado incluido</a><br>  
     </body>
