@@ -5,34 +5,36 @@ imprimirCabecera("Modificar Lugar");
 require_once('../../app/controllers/LugarController.php'); // Incluimos el controlador
 
 $controller = new LugarController();
-
-if ($_GET['ip']) {
+echo "<form method='get' action='listar_modificar.php'>";
+if (isset($_GET['ip'])) {
     $ip = $_GET['ip'];
+    $visita = $controller->consultarLugar($ip);
 
-    if ($_SERVER['REQUEST_METHOD'] === 'POST') {
-        $lugar = $_POST['lugar'];
-        $descripcion = $_POST['descripcion'];
-
-        $mensaje = $controller->modificarLugar($ip, $lugar, $descripcion);
-        echo "<p>" . $mensaje . "</p>";
-    }
-
-    $lugar = $controller->consultarLugar($ip);
-
-    if (!empty($lugar)) {
-        echo "<form method='post' action='listar_modificar.php?ip=$ip'>";
+    if (!empty($visita)) {
         echo "<label for='ip'>IP:</label>";
-        echo "<input type='text' name='ip' value='" . $lugar['ip'] . "' readonly>";
+        echo "<input type='text' name='ip' value='" . $visita['ip'] . "' readonly>";
         echo "<label for='lugar'>Lugar:</label>";
-        echo "<input type='text' name='lugar' value='" . $lugar['lugar'] . "'>";
+        echo "<input type='text' name='lugar' value='" . $visita['lugar'] . "'>";
         echo "<label for='descripcion'>Descripción:</label>";
-        echo "<input type='text' name='descripcion' value='" . $lugar['descripcion'] . "'>";
+        echo "<input type='text' name='descripcion' value='" . $visita['descripcion'] . "'>";
         echo "<input type='submit' value='Modificar lugar seleccionado'>";
-        echo "</form>";
+
+        // Obtener valores de $_GET si están definidos
+        $ip = $_GET['ip'];
+        $lugar = $_GET['lugar'] ?? '';
+        $descripcion = $_GET['descripcion'] ?? '';
+
+        if (!empty($ip) && !empty($lugar)) {
+            $mensaje = $controller->modificarLugar($ip, $lugar, $descripcion);
+            echo "<p>" . $mensaje . "</p>";
+        } else {
+            echo "<p>IP y Lugar son campos obligatorios.</p>";
+        }
     } else {
         echo "<p>No existe un lugar con la IP proporcionada.</p>";
+        echo "<a href='../index.html'>Volver al Inicio</a></br>";
     }
 }
-
+echo "</form>";
 imprimirPie("Modificar Lugar");
 ?>

@@ -29,3 +29,4 @@ foreach ($lugares as $lugar) {
 echo "</table>";
 imprimirPie("Listar Lugar");
 ?>
+

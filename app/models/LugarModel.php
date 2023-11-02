@@ -41,8 +41,14 @@ class LugarModel
 
     public function modificarLugar($ip, $lugar, $descripcion)
     {
-        $query = "UPDATE lugar SET lugar = '$lugar', descripcion = '$descripcion' WHERE ip = '$ip'";
         $mensaje = "";
+        if ($descripcion === "") {
+            $descripcion = "NULL"; // Establece NULL como valor en la consulta SQL
+        }else{
+            $descripcion = "'".$descripcion."'";
+        }
+
+        $query = "UPDATE lugar SET lugar = '$lugar', descripcion = $descripcion WHERE ip = '$ip';";
 
         if ($this->mysqli->query($query)) {
             $mensaje = "Lugar modificado correctamente.";

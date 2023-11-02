@@ -4,27 +4,39 @@ imprimirCabecera("Agregar Lugar");
 
 require_once('../../app/controllers/LugarController.php'); // Incluimos el controlador
 
-$controller = new LugarController();
-
-if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['ip']) && isset($_POST['lugar']) && isset($_POST['descripcion'])) {
-    $ip = $_POST["ip"];
-    $lugar = $_POST["lugar"];
-    $descripcion = $_POST["descripcion"];
-
-    $mensaje = $controller->agregarLugar($ip, $lugar, $descripcion);
-
-    echo "<p>$mensaje</p>";
-}
-
 echo "<form method='post' action='agregar_lugar.php'>
-    <label for='ip'>IP:</label>
-    <input type='text' id='ip' name='ip' required><br>
-    <label for='lugar'>Lugar:</label>
-    <input type='text' id='lugar' name='lugar' required><br>
-    <label for='descripcion'>Descripción:</label>
-    <input type='text' id='descripcion' name='descripcion' required><br>
-    <input type='submit' value='Agregar Lugar'>
-</form>";
+        <label for='ip'>IP:</label>
+        <input type='text' id='ip' name='ip' required><br>
+    
+        <label for='lugar'>Lugar:</label>
+        <input type='text' id='lugar' name='lugar' required><br>
+    
+        <label for='descripcion'>Descripción:</label>
+        <input type='text' id='descripcion' name='descripcion' required><br>
+    
+        <input type='submit' value='Agregar Lugar'>
+    </form>";
+if (isset($_POST['ip']) && isset($_POST['lugar']) && isset($_POST['descripcion'])) {
+    try {
+        // Datos del formulario
+        $ip = $_POST["ip"];
+        $lugar = $_POST["lugar"];
+        $descripcion = $_POST["descripcion"];
+
+        // Instanciamos el controlador
+        $controller = new LugarController();
+
+        // Intentamos agregar el Lugar
+        $mensaje = $controller->agregarLugar($ip, $lugar, $descripcion);
+
+        echo "<p>$mensaje</p>";
+    }   catch (mysqli_sql_exception $e) {
+        if ($e->getCode() == 1062) {
+            $mensaje = "El Lugar ya existe en la base de datos.";
+            echo "<p>".$mensaje."</p>";
+        }
+    }
+}
 
 imprimirPie("Agregar Lugar");
 ?>
